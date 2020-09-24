@@ -97,16 +97,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
-                .authenticationManager(authenticationManager())
-                .allowedTokenEndpointRequestMethods(HttpMethod.POST, HttpMethod.GET);
+            .authenticationManager(authenticationManager())
+                .allowedTokenEndpointRequestMethods(HttpMethod.POST, HttpMethod.GET)
+                .userDetailsService(userDetailsService())
+        ;
     }
 
     //3.配置权限
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
-        //允许表单认证
         oauthServer
-                .allowFormAuthenticationForClients()
-                .checkTokenAccess("permitAll()");
+                .allowFormAuthenticationForClients()    //允许表单认证
+                .checkTokenAccess("permitAll()");       //验证token
     }
 }
