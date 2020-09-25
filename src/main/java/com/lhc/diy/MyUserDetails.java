@@ -1,4 +1,4 @@
-package com.lhc.config.zhuru;
+package com.lhc.diy;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

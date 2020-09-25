@@ -15,6 +15,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //2.拦截所有请求，使用http-basic方式登录
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/**").fullyAuthenticated().and().httpBasic();
+        http.authorizeRequests().antMatchers("/**").fullyAuthenticated()
+            .and()
+            .httpBasic();
     }
 }
