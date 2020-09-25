@@ -1,5 +1,7 @@
 package com.lhc.config;
 
+import com.lhc.config.zhuru.MyUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -35,19 +37,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     //2.用户信息  正常从数据库读取
-    @Bean
-    UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
-        userDetailsService.createUser(User.withUsername("user_1").password(passwordEncoder().encode("123456")).authorities("ROLE_USER").build() );
-        userDetailsService.createUser(User.withUsername("user_2").password(passwordEncoder().encode("123456")).authorities("ROLE_USER").build());
-        return userDetailsService;
-    }
+    @Autowired
+    private MyUserDetailsService myUserDetailsService;
 
     //3.整合加密方式和用户信息
     @Bean
     AuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService());
+        daoAuthenticationProvider.setUserDetailsService(myUserDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setHideUserNotFoundExceptions(false);
         return daoAuthenticationProvider;
@@ -99,7 +96,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints
             .authenticationManager(authenticationManager())
                 .allowedTokenEndpointRequestMethods(HttpMethod.POST, HttpMethod.GET)
-                .userDetailsService(userDetailsService())
+                .userDetailsService(myUserDetailsService)
         ;
     }
 
