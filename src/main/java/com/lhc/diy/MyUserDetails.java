@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Author lhc
@@ -12,27 +13,16 @@ import java.util.Collection;
  **/
 @Data
 public class MyUserDetails implements UserDetails {
-
-    private String userId;
-    private String account;
-    private String password;
+    private String id;
+    private String carrierId;
+    private String deptId;
+    private String code;
     private String username;
-    private Boolean adminFlag;
-    private Boolean validUrlFlag;
-    private Boolean available;
+    private Integer sex;
+    private String password;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
         return null;
     }
 

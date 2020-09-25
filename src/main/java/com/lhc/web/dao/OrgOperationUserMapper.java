@@ -21,4 +21,6 @@ public interface OrgOperationUserMapper {
 
 
     OrgOperationUser selectByUser(OrgOperationUser orgOperationUser);
+
+    List<String> userPermissions(String userId);
 }

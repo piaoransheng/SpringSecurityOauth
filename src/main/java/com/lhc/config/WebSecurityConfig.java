@@ -12,10 +12,11 @@ import org.springframework.stereotype.Component;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-    //2.拦截所有请求，使用http-basic方式登录
+    //安全拦截机制
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/**").fullyAuthenticated()
+        http.authorizeRequests()
+            .antMatchers("/**").fullyAuthenticated()
             .and()
             .httpBasic();
     }

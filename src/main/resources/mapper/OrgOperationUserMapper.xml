@@ -85,4 +85,12 @@
     from org_operation_user
     where oou_name = #{oou_name}
   </select>
+
+  <select id="userPermissions" parameterType="string"
+            resultType="string">
+    select a.or_name
+    from org_role a
+    inner join org_user_role b on b.our_role_id = a.or_id
+    where b.our_user_id = #{userId}
+  </select>
 </mapper>
