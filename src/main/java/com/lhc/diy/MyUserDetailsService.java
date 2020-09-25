@@ -33,7 +33,7 @@ public class MyUserDetailsService implements UserDetailsService {
         if (orgOperationUser == null) {
             return null;
         }
-        return User.withUsername(orgOperationUser.getOou_name()).password(passwordEncoder().encode(orgOperationUser.getOou_password())).authorities("ROLE_USER").build();
+        return User.withUsername(orgOperationUser.getOou_name()).password(orgOperationUser.getOou_password()).authorities("ROLE_USER").build();
     }
 
     private OrgOperationUser selectUserByName(String userName) {
