@@ -1,82 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lhc.web.dao.OrgOperationUserMapper">
-    <resultMap id="BaseResultMap" type="com.lhc.web.domain.OrgOperationUser">
-        <id column="oou_id" property="oou_id" jdbcType="CHAR"/>
-        <result column="oou_carrier_id" property="oou_carrier_id" jdbcType="CHAR"/>
-        <result column="oou_dept_id" property="oou_dept_id" jdbcType="CHAR"/>
-        <result column="oou_code" property="oou_code" jdbcType="VARCHAR"/>
-        <result column="oou_name" property="oou_name" jdbcType="VARCHAR"/>
-        <result column="oou_sex" property="oou_sex" jdbcType="SMALLINT"/>
-        <result column="oou_password" property="oou_password" jdbcType="VARCHAR"/>
-        <result column="oou_superior" property="oou_superior" jdbcType="CHAR"/>
-        <result column="oou_identity_card" property="oou_identity_card" jdbcType="VARCHAR"/>
-        <result column="oou_birth" property="oou_birth" jdbcType="DATE"/>
-        <result column="oou_phone" property="oou_phone" jdbcType="VARCHAR"/>
-        <result column="oou_mail" property="oou_mail" jdbcType="VARCHAR"/>
-        <result column="oou_education" property="oou_education" jdbcType="SMALLINT"/>
-        <result column="oou_entry_date" property="oou_entry_date" jdbcType="DATE"/>
-        <result column="oou_departure_date" property="oou_departure_date" jdbcType="DATE"/>
-        <result column="oou_type" property="oou_type" jdbcType="SMALLINT"/>
-        <result column="oou_status" property="oou_status" jdbcType="SMALLINT"/>
-        <result column="oou_create_by" property="oou_create_by" jdbcType="CHAR"/>
-        <result column="oou_create_time" property="oou_create_time" jdbcType="TIMESTAMP"/>
-    </resultMap>
 
-
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from org_operation_user
-    where oou_id = #{oou_id,jdbcType=CHAR}
-  </delete>
-    <insert id="insert" parameterType="com.lhc.web.domain.OrgOperationUser">
-    insert into org_operation_user (oou_id, oou_carrier_id, oou_dept_id, 
-      oou_code, oou_name, oou_sex, 
-      oou_password, oou_superior, oou_identity_card, 
-      oou_birth, oou_phone, oou_mail, 
-      oou_education, oou_entry_date, oou_departure_date, 
-      oou_type, oou_status, oou_create_by, 
-      oou_create_time)
-    values (#{oou_id,jdbcType=CHAR}, #{oou_carrier_id,jdbcType=CHAR}, #{oou_dept_id,jdbcType=CHAR}, 
-      #{oou_code,jdbcType=VARCHAR}, #{oou_name,jdbcType=VARCHAR}, #{oou_sex,jdbcType=SMALLINT}, 
-      #{oou_password,jdbcType=VARCHAR}, #{oou_superior,jdbcType=CHAR}, #{oou_identity_card,jdbcType=VARCHAR}, 
-      #{oou_birth,jdbcType=DATE}, #{oou_phone,jdbcType=VARCHAR}, #{oou_mail,jdbcType=VARCHAR}, 
-      #{oou_education,jdbcType=SMALLINT}, #{oou_entry_date,jdbcType=DATE}, #{oou_departure_date,jdbcType=DATE}, 
-      #{oou_type,jdbcType=SMALLINT}, #{oou_status,jdbcType=SMALLINT}, #{oou_create_by,jdbcType=CHAR}, 
-      #{oou_create_time,jdbcType=TIMESTAMP})
-  </insert>
-    <update id="updateByPrimaryKey" parameterType="com.lhc.web.domain.OrgOperationUser">
-    update org_operation_user
-    set oou_carrier_id = #{oou_carrier_id,jdbcType=CHAR},
-      oou_dept_id = #{oou_dept_id,jdbcType=CHAR},
-      oou_code = #{oou_code,jdbcType=VARCHAR},
-      oou_name = #{oou_name,jdbcType=VARCHAR},
-      oou_sex = #{oou_sex,jdbcType=SMALLINT},
-      oou_password = #{oou_password,jdbcType=VARCHAR},
-      oou_superior = #{oou_superior,jdbcType=CHAR},
-      oou_identity_card = #{oou_identity_card,jdbcType=VARCHAR},
-      oou_birth = #{oou_birth,jdbcType=DATE},
-      oou_phone = #{oou_phone,jdbcType=VARCHAR},
-      oou_mail = #{oou_mail,jdbcType=VARCHAR},
-      oou_education = #{oou_education,jdbcType=SMALLINT},
-      oou_entry_date = #{oou_entry_date,jdbcType=DATE},
-      oou_departure_date = #{oou_departure_date,jdbcType=DATE},
-      oou_type = #{oou_type,jdbcType=SMALLINT},
-      oou_status = #{oou_status,jdbcType=SMALLINT},
-      oou_create_by = #{oou_create_by,jdbcType=CHAR},
-      oou_create_time = #{oou_create_time,jdbcType=TIMESTAMP}
-    where oou_id = #{oou_id,jdbcType=CHAR}
-  </update>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
-    select oou_id, oou_carrier_id, oou_dept_id, oou_code, oou_name, oou_sex, oou_password, 
-    oou_superior, oou_identity_card, oou_birth, oou_phone, oou_mail, oou_education, oou_entry_date, 
-    oou_departure_date, oou_type, oou_status, oou_create_by, oou_create_time
-    from org_operation_user
-    where oou_id = #{oou_id,jdbcType=CHAR}
-  </select>
-    <select id="selectAll" resultType="com.lhc.web.domain.OrgOperationUser">
-    select * from org_operation_user
-  </select>
-
+    <!--通过用户名查询用户-->
     <select id="selectByUser" parameterType="com.lhc.web.domain.OrgOperationUser"
             resultType="com.lhc.web.domain.OrgOperationUser">
     select oou_id, oou_carrier_id, oou_dept_id, oou_code, oou_name, oou_sex, oou_password,
@@ -86,6 +12,7 @@
     where oou_name = #{oou_name}
   </select>
 
+    <!--通过用户id查询角色-->
   <select id="userPermissions" parameterType="string"
             resultType="string">
     select a.or_name

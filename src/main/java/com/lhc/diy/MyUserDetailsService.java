@@ -36,16 +36,16 @@ public class MyUserDetailsService implements UserDetailsService {
         if (orgOperationUser == null) {
             return null;
         }
-//        MyUserDetails myUserDetails = this.buildMyUserDetails(orgOperationUser);
-//        return myUserDetails;
+        MyUserDetails myUserDetails = this.buildMyUserDetails(orgOperationUser);
+        return myUserDetails;
 
         //用户权限
-        List<String> userpermissionList = this.selectUserPermissions(orgOperationUser.getOou_id());
-        //用户权限集合转数组
-        String[] array = new String[userpermissionList.size()];
-        userpermissionList.toArray(array);
-        UserDetails userDetails = User.withUsername(orgOperationUser.getOou_name()).password(orgOperationUser.getOou_password()).authorities(array).build();
-        return userDetails;
+//        List<String> userpermissionList = this.selectUserPermissions(orgOperationUser.getOou_id());
+//        //用户权限集合转数组
+//        String[] array = new String[userpermissionList.size()];
+//        userpermissionList.toArray(array);
+//        UserDetails userDetails = User.withUsername(orgOperationUser.getOou_name()).password(orgOperationUser.getOou_password()).authorities(array).build();
+//        return userDetails;
     }
 
     /**
