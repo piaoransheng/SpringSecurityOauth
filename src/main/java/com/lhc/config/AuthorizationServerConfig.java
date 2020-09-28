@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 
 /**
  * @Author lhc
@@ -90,10 +91,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     //2.配置token类型
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+        DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
+        defaultAccessTokenConverter.setUserTokenConverter(new CustomUserAuthenticationConverter());
         endpoints
             .authenticationManager(authenticationManager())
                 .allowedTokenEndpointRequestMethods(HttpMethod.POST, HttpMethod.GET)
                 .userDetailsService(myUserDetailsService)
+                .accessTokenConverter(defaultAccessTokenConverter)
         ;
     }
 
@@ -104,4 +108,20 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .allowFormAuthenticationForClients()    //允许表单认证
                 .checkTokenAccess("permitAll()");       //验证token
     }
+
+/*    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+        DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
+        defaultAccessTokenConverter.setUserTokenConverter(new CustomUserAuthenticationConverter());
+        endpoints
+                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
+                .tokenStore(tokenStore())
+                .authenticationManager(authenticationManager)
+                .userDetailsService(userDetailService)
+                .accessTokenConverter(defaultAccessTokenConverter)
+                .tokenEnhancer(new CustomTokenEnhancer())
+                .tokenServices(tokenServices())
+                .exceptionTranslator(new CustomWebResponseExceptionTranslator());
+    }*/
+
 }

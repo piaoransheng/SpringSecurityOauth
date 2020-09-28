@@ -4,7 +4,6 @@ import com.lhc.web.dao.OrgOperationUserMapper;
 import com.lhc.web.domain.OrgOperationUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -37,6 +36,7 @@ public class MyUserDetailsService implements UserDetailsService {
             return null;
         }
         MyUserDetails myUserDetails = this.buildMyUserDetails(orgOperationUser);
+        System.out.println("测试" + myUserDetails);
         return myUserDetails;
 
         //用户权限
