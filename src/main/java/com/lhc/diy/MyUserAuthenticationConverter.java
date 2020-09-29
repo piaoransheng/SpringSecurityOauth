@@ -1,6 +1,5 @@
-package com.lhc.config;
+package com.lhc.diy;
 
-import com.lhc.diy.MyUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
@@ -10,10 +9,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Created by lisp
- * 2019/4/4
+ * Created by lhc
+ * 2020/09/29
  */
-public class CustomUserAuthenticationConverter extends DefaultUserAuthenticationConverter {
+public class MyUserAuthenticationConverter extends DefaultUserAuthenticationConverter {
 
     @Override
     public Map<String, ?> convertUserAuthentication(Authentication authentication) {

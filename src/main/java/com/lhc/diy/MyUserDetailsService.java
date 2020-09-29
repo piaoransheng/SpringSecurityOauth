@@ -30,13 +30,11 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        System.out.println(passwordEncoder().encode("123456"));
         OrgOperationUser orgOperationUser = this.selectUserByName(userName);
         if (orgOperationUser == null) {
             return null;
         }
         MyUserDetails myUserDetails = this.buildMyUserDetails(orgOperationUser);
-        System.out.println("测试" + myUserDetails);
         return myUserDetails;
 
         //用户权限

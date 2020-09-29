@@ -1,5 +1,6 @@
 package com.lhc.config;
 
+import com.lhc.diy.MyUserAuthenticationConverter;
 import com.lhc.diy.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -65,15 +66,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients
-            .inMemory()
+                .inMemory()
                 .withClient("client_1")
-                    .secret(passwordEncoder().encode("secret_1"))
-                    .redirectUris("https://www.baidu.com/")
-                    .authorizedGrantTypes("password", "refresh_token", "authorization_code")
-                    .scopes("all")
-                    .resourceIds("resourceId1")
-                    .accessTokenValiditySeconds(36000)
-                    .refreshTokenValiditySeconds(36000)
+                .secret(passwordEncoder().encode("secret_1"))
+                .redirectUris("https://www.baidu.com/")
+                .authorizedGrantTypes("password", "refresh_token", "authorization_code")
+                .scopes("all")
+                .resourceIds("resourceId1")
+                .accessTokenValiditySeconds(36000)
+                .refreshTokenValiditySeconds(36000)
 
                 .and()
 
@@ -92,9 +93,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
-        defaultAccessTokenConverter.setUserTokenConverter(new CustomUserAuthenticationConverter());
+        defaultAccessTokenConverter.setUserTokenConverter(new MyUserAuthenticationConverter());
         endpoints
-            .authenticationManager(authenticationManager())
+                .authenticationManager(authenticationManager())
                 .allowedTokenEndpointRequestMethods(HttpMethod.POST, HttpMethod.GET)
                 .userDetailsService(myUserDetailsService)
                 .accessTokenConverter(defaultAccessTokenConverter)
@@ -108,20 +109,4 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .allowFormAuthenticationForClients()    //允许表单认证
                 .checkTokenAccess("permitAll()");       //验证token
     }
-
-/*    @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
-        defaultAccessTokenConverter.setUserTokenConverter(new CustomUserAuthenticationConverter());
-        endpoints
-                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
-                .tokenStore(tokenStore())
-                .authenticationManager(authenticationManager)
-                .userDetailsService(userDetailService)
-                .accessTokenConverter(defaultAccessTokenConverter)
-                .tokenEnhancer(new CustomTokenEnhancer())
-                .tokenServices(tokenServices())
-                .exceptionTranslator(new CustomWebResponseExceptionTranslator());
-    }*/
-
 }
