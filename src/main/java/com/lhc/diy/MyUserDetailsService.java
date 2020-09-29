@@ -4,13 +4,17 @@ import com.lhc.web.dao.OrgOperationUserMapper;
 import com.lhc.web.domain.OrgOperationUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,14 +40,6 @@ public class MyUserDetailsService implements UserDetailsService {
         }
         MyUserDetails myUserDetails = this.buildMyUserDetails(orgOperationUser);
         return myUserDetails;
-
-        //用户权限
-//        List<String> userpermissionList = this.selectUserPermissions(orgOperationUser.getOou_id());
-//        //用户权限集合转数组
-//        String[] array = new String[userpermissionList.size()];
-//        userpermissionList.toArray(array);
-//        UserDetails userDetails = User.withUsername(orgOperationUser.getOou_name()).password(orgOperationUser.getOou_password()).authorities(array).build();
-//        return userDetails;
     }
 
     /**
@@ -59,13 +55,20 @@ public class MyUserDetailsService implements UserDetailsService {
     }
 
     /**
-     * 查询用户权限 这边先搞个角色往往
+     * 查询用户权限 这边先搞个角色玩玩
      *
      * @param userId
      * @return
      */
-    private List<String> selectUserPermissions(String userId) {
-        return orgOperationUserMapper.userPermissions(userId);
+    private List<GrantedAuthority> selectUserPermissions(String userId) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        //用户角色
+        List<String> roleList = orgOperationUserMapper.userPermissions(userId);
+        for (String role : roleList) {
+            SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role);
+            authorities.add(simpleGrantedAuthority);
+        }
+        return authorities;
     }
 
     /**
@@ -82,6 +85,9 @@ public class MyUserDetailsService implements UserDetailsService {
         myUserDetails.setCode(orgOperationUser.getOou_code());
         myUserDetails.setUsername(orgOperationUser.getOou_name());
         myUserDetails.setPassword(orgOperationUser.getOou_password());
+        if (!CollectionUtils.isEmpty(selectUserPermissions(orgOperationUser.getOou_id()))) {
+            myUserDetails.setAuthorities(selectUserPermissions(orgOperationUser.getOou_id()));
+        }
         return myUserDetails;
     }
 }

@@ -11,6 +11,7 @@ import java.util.Map;
 /**
  * Created by lhc
  * 2020/09/29
+ * 有了这个资源服务才能获取到全部用户信息
  */
 public class MyUserAuthenticationConverter extends DefaultUserAuthenticationConverter {
 

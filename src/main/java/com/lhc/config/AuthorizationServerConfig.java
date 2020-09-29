@@ -35,7 +35,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return new BCryptPasswordEncoder();
     }
 
-    //2.用户信息  正常从数据库读取
+    //2.用户信息
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
