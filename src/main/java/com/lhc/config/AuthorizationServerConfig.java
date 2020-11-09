@@ -1,5 +1,6 @@
 package com.lhc.config;
 
+import com.lhc.diy.MyTokenEnhancer;
 import com.lhc.diy.MyUserAuthenticationConverter;
 import com.lhc.diy.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -19,6 +18,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 
 /**
  * @Author lhc
@@ -35,7 +35,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return new BCryptPasswordEncoder();
     }
 
+    //自定义token返回信息
+    @Bean
+    TokenEnhancer tokenEnhancer() {
+        return new MyTokenEnhancer();
+    }
+
     //2.用户信息
+
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
@@ -52,13 +59,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     //4.啥东东
     @Bean
     AuthenticationManager authenticationManager() {
-        AuthenticationManager authenticationManager = new AuthenticationManager() {
-            @Override
-            public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-                return daoAuthenticationProvider().authenticate(authentication);
-            }
-        };
-        return authenticationManager;
+        return authentication -> daoAuthenticationProvider().authenticate(authentication);
     }
 
 
@@ -99,6 +100,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .allowedTokenEndpointRequestMethods(HttpMethod.POST, HttpMethod.GET)
                 .userDetailsService(myUserDetailsService)
                 .accessTokenConverter(defaultAccessTokenConverter)
+                .tokenEnhancer(tokenEnhancer())
         ;
     }
 
